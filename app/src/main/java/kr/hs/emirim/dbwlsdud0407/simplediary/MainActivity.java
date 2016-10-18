@@ -1,14 +1,18 @@
 package kr.hs.emirim.dbwlsdud0407.simplediary;
 
+import android.content.Context;
 import android.icu.util.Calendar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity {
@@ -39,6 +43,24 @@ public class MainActivity extends AppCompatActivity {
                 but_save.setEnabled(true);
             }
         });
+
+        but_save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                try {
+                    FileOutputStream out=openFileOutput(filename, Context.MODE_WORLD_WRITEABLE);
+                    String diarycontents=editdiary.getText().toString();
+                    out.write(diarycontents.getBytes());
+                    out.close();
+                    Toast.makeText(getApplicationContext(),"저장이 완료됨", Toast.LENGTH_SHORT).show();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+
+
     }
     String readDiary(String filename){
         String diaryContents=null;
